@@ -1,0 +1,2035 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>أكاديمية المعرفة - تعلم بلا حدود</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@200;300;400;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary-color: #667eea;
+            --secondary-color: #764ba2;
+            --accent-color: #f093fb;
+            --dark-color: #1a1a2e;
+            --light-color: #ffffff;
+            --text-dark: #333333;
+            --text-light: #666666;
+            --success-color: #10b981;
+            --warning-color: #f59e0b;
+            --error-color: #ef4444;
+            --gradient-primary: linear-gradient(135deg, var(--primary-color) 0%, var(--secondary-color) 100%);
+            --gradient-accent: linear-gradient(135deg, var(--accent-color) 0%, var(--primary-color) 100%);
+            --shadow-light: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+            --shadow-medium: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+            --shadow-heavy: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+            --border-radius: 12px;
+            --transition: all 0.3s ease;
+        }
+
+        body {
+            font-family: 'Cairo', sans-serif;
+            line-height: 1.6;
+            color: var(--text-dark);
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+        }
+
+        /* Header & Navigation */
+        .navbar {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(20px);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+            z-index: 1000;
+            transition: var(--transition);
+            padding: 1rem 0;
+        }
+
+        .navbar.scrolled {
+            background: rgba(255, 255, 255, 0.98);
+            box-shadow: var(--shadow-medium);
+        }
+
+        .nav-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 1.8rem;
+            font-weight: 800;
+            background: var(--gradient-primary);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .nav-links {
+            display: flex;
+            list-style: none;
+            gap: 2rem;
+            align-items: center;
+        }
+
+        .nav-links a, .nav-links button {
+            text-decoration: none;
+            color: var(--text-dark);
+            font-weight: 500;
+            transition: var(--transition);
+            position: relative;
+            background: none;
+            border: none;
+            cursor: pointer;
+            font-family: inherit;
+            font-size: inherit;
+            padding: 0.5rem 1rem;
+            border-radius: var(--border-radius);
+        }
+
+        .nav-links a:hover, .nav-links button:hover {
+            color: var(--primary-color);
+            background: rgba(102, 126, 234, 0.1);
+        }
+
+        .nav-links a.active, .nav-links button.active {
+            color: var(--primary-color);
+            background: rgba(102, 126, 234, 0.15);
+        }
+
+        .cart-icon {
+            position: relative;
+            cursor: pointer;
+            padding: 0.75rem;
+            border-radius: 50%;
+            transition: var(--transition);
+            background: none;
+            border: none;
+            font-size: 1.2rem;
+        }
+
+        .cart-icon:hover {
+            background: rgba(102, 126, 234, 0.1);
+            transform: scale(1.1);
+        }
+
+        .cart-count {
+            position: absolute;
+            top: -5px;
+            left: -5px;
+            background: var(--error-color);
+            color: white;
+            border-radius: 50%;
+            width: 22px;
+            height: 22px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.75rem;
+            font-weight: 700;
+            animation: pulse 0.3s ease;
+        }
+
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.2); }
+            100% { transform: scale(1); }
+        }
+
+        /* Page Container */
+        .page-container {
+            margin-top: 90px;
+            min-height: calc(100vh - 90px);
+        }
+
+        .page {
+            display: none;
+            opacity: 0;
+            transform: translateY(20px);
+            transition: all 0.4s ease;
+        }
+
+        .page.active {
+            display: block;
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* Hero Section */
+        .hero {
+            padding: 80px 0;
+            text-align: center;
+            background: linear-gradient(135deg, rgba(102, 126, 234, 0.9) 0%, rgba(118, 75, 162, 0.9) 100%);
+            color: white;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 100" fill="white" opacity="0.1"><polygon points="0,0 1000,0 1000,100 0,50"/></svg>');
+            background-size: cover;
+            animation: wave 10s ease-in-out infinite;
+        }
+
+        @keyframes wave {
+            0%, 100% { transform: translateX(0%); }
+            50% { transform: translateX(-50px); }
+        }
+
+        .hero-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
+            position: relative;
+            z-index: 2;
+        }
+
+        .hero h1 {
+            font-size: clamp(2.5rem, 5vw, 4rem);
+            margin-bottom: 1.5rem;
+            font-weight: 800;
+            line-height: 1.2;
+            animation: fadeInUp 1s ease-out;
+        }
+
+        .hero p {
+            font-size: 1.25rem;
+            margin-bottom: 2rem;
+            opacity: 0.9;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+            animation: fadeInUp 1s ease-out 0.2s both;
+        }
+
+        .cta-button {
+            display: inline-block;
+            background: rgba(255, 255, 255, 0.2);
+            color: white;
+            padding: 1rem 2rem;
+            border-radius: var(--border-radius);
+            text-decoration: none;
+            font-weight: 600;
+            transition: var(--transition);
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            backdrop-filter: blur(10px);
+            animation: fadeInUp 1s ease-out 0.4s both;
+        }
+
+        .cta-button:hover {
+            background: rgba(255, 255, 255, 0.3);
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-medium);
+        }
+
+        /* Main Content Sections */
+        .content-section {
+            padding: 60px 0;
+            background: var(--light-color);
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
+
+        .section-title {
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+
+        .section-title h2 {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+            background: var(--gradient-primary);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .section-title p {
+            font-size: 1.1rem;
+            color: var(--text-light);
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        /* Search and Filter Bar */
+        .search-filter-bar {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 2rem;
+            flex-wrap: wrap;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .search-input {
+            flex: 1;
+            max-width: 400px;
+            padding: 0.75rem 1rem;
+            border: 2px solid rgba(102, 126, 234, 0.2);
+            border-radius: var(--border-radius);
+            font-family: inherit;
+            transition: var(--transition);
+        }
+
+        .search-input:focus {
+            outline: none;
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+        }
+
+        .filter-buttons {
+            display: flex;
+            gap: 0.5rem;
+            flex-wrap: wrap;
+        }
+
+        .filter-btn {
+            padding: 0.5rem 1rem;
+            border: 2px solid var(--primary-color);
+            background: white;
+            color: var(--primary-color);
+            border-radius: 25px;
+            font-family: inherit;
+            font-weight: 500;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+
+        .filter-btn:hover, .filter-btn.active {
+            background: var(--primary-color);
+            color: white;
+        }
+
+        /* Courses Grid */
+        .courses-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+
+        .course-card {
+            background: white;
+            border-radius: var(--border-radius);
+            overflow: hidden;
+            box-shadow: var(--shadow-light);
+            transition: var(--transition);
+            position: relative;
+            cursor: pointer;
+        }
+
+        .course-card:hover {
+            transform: translateY(-8px);
+            box-shadow: var(--shadow-heavy);
+        }
+
+        .course-image {
+            height: 200px;
+            background: var(--gradient-accent);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 3rem;
+            color: white;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .course-image::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            right: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.4), transparent);
+            transition: right 0.5s ease;
+        }
+
+        .course-card:hover .course-image::before {
+            right: 100%;
+        }
+
+        .course-content {
+            padding: 1.5rem;
+        }
+
+        .course-category {
+            display: inline-block;
+            background: rgba(102, 126, 234, 0.1);
+            color: var(--primary-color);
+            padding: 0.25rem 0.75rem;
+            border-radius: 20px;
+            font-size: 0.875rem;
+            font-weight: 600;
+            margin-bottom: 1rem;
+        }
+
+        .course-title {
+            font-size: 1.25rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+            color: var(--text-dark);
+        }
+
+        .course-description {
+            color: var(--text-light);
+            margin-bottom: 1rem;
+            line-height: 1.6;
+        }
+
+        .course-meta {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+            padding-bottom: 1rem;
+            border-bottom: 1px solid rgba(0,0,0,0.1);
+        }
+
+        .course-rating {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .stars {
+            color: #fbbf24;
+        }
+
+        .course-price {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--primary-color);
+        }
+
+        .course-actions {
+            display: flex;
+            gap: 1rem;
+        }
+
+        .btn {
+            padding: 0.75rem 1.5rem;
+            border: none;
+            border-radius: var(--border-radius);
+            font-weight: 600;
+            cursor: pointer;
+            transition: var(--transition);
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+            font-size: 0.875rem;
+            font-family: inherit;
+        }
+
+        .btn-primary {
+            background: var(--gradient-primary);
+            color: white;
+            flex: 1;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-medium);
+        }
+
+        .btn-secondary {
+            background: transparent;
+            color: var(--primary-color);
+            border: 2px solid var(--primary-color);
+        }
+
+        .btn-secondary:hover {
+            background: var(--primary-color);
+            color: white;
+        }
+
+        .btn-danger {
+            background: var(--error-color);
+            color: white;
+        }
+
+        .btn-danger:hover {
+            background: #dc2626;
+            transform: translateY(-2px);
+        }
+
+        .btn-success {
+            background: var(--success-color);
+            color: white;
+        }
+
+        .btn-success:hover {
+            background: #059669;
+            transform: translateY(-2px);
+        }
+
+        /* My Courses Page */
+        .my-courses-empty {
+            text-align: center;
+            padding: 4rem 2rem;
+            color: var(--text-light);
+        }
+
+        .my-courses-empty i {
+            font-size: 4rem;
+            margin-bottom: 1rem;
+            opacity: 0.5;
+        }
+
+        .my-courses-empty h3 {
+            margin-bottom: 1rem;
+            color: var(--text-dark);
+        }
+
+        .progress-bar {
+            width: 100%;
+            height: 8px;
+            background: rgba(102, 126, 234, 0.1);
+            border-radius: 4px;
+            overflow: hidden;
+            margin: 1rem 0;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: var(--gradient-primary);
+            border-radius: 4px;
+            transition: width 0.3s ease;
+        }
+
+        .course-progress {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 1rem;
+            padding-top: 1rem;
+            border-top: 1px solid rgba(0,0,0,0.1);
+        }
+
+        /* Cart Page */
+        .cart-page {
+            background: var(--light-color);
+            min-height: calc(100vh - 90px);
+        }
+
+        .cart-item-large {
+            background: white;
+            border-radius: var(--border-radius);
+            padding: 1.5rem;
+            margin-bottom: 1rem;
+            box-shadow: var(--shadow-light);
+            display: flex;
+            gap: 1.5rem;
+            align-items: center;
+            transition: var(--transition);
+        }
+
+        .cart-item-large:hover {
+            box-shadow: var(--shadow-medium);
+        }
+
+        .cart-item-image-large {
+            width: 120px;
+            height: 80px;
+            border-radius: 8px;
+            background: var(--gradient-accent);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 2rem;
+            flex-shrink: 0;
+        }
+
+        .cart-item-info-large {
+            flex: 1;
+        }
+
+        .cart-item-title-large {
+            font-size: 1.2rem;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+            color: var(--text-dark);
+        }
+
+        .cart-item-category {
+            color: var(--text-light);
+            font-size: 0.9rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .cart-item-price-large {
+            color: var(--primary-color);
+            font-weight: 700;
+            font-size: 1.3rem;
+        }
+
+        .cart-summary {
+            background: white;
+            padding: 2rem;
+            border-radius: var(--border-radius);
+            box-shadow: var(--shadow-medium);
+            position: sticky;
+            top: 110px;
+        }
+
+        .cart-summary h3 {
+            margin-bottom: 1.5rem;
+            color: var(--text-dark);
+        }
+
+        .summary-row {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 1rem;
+            padding-bottom: 0.5rem;
+        }
+
+        .summary-row.total {
+            border-top: 2px solid rgba(0,0,0,0.1);
+            padding-top: 1rem;
+            font-weight: 700;
+            font-size: 1.2rem;
+            color: var(--primary-color);
+        }
+
+        .cart-grid {
+            display: grid;
+            grid-template-columns: 1fr 350px;
+            gap: 2rem;
+        }
+
+        .empty-state {
+            text-align: center;
+            padding: 4rem 2rem;
+            color: var(--text-light);
+        }
+
+        .empty-state i {
+            font-size: 4rem;
+            margin-bottom: 1rem;
+            opacity: 0.5;
+        }
+
+        /* Modal */
+        .modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.8);
+            backdrop-filter: blur(5px);
+            z-index: 2000;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            opacity: 0;
+            visibility: hidden;
+            transition: var(--transition);
+            padding: 2rem;
+        }
+
+        .modal.show {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .modal-content {
+            background: white;
+            border-radius: var(--border-radius);
+            max-width: 800px;
+            max-height: 90vh;
+            overflow-y: auto;
+            transform: scale(0.9);
+            transition: var(--transition);
+            position: relative;
+        }
+
+        .modal.show .modal-content {
+            transform: scale(1);
+        }
+
+        .modal-header {
+            padding: 2rem;
+            border-bottom: 1px solid rgba(0,0,0,0.1);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .modal-header h2 {
+            font-weight: 700;
+            color: var(--text-dark);
+        }
+
+        .close-modal {
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            color: var(--text-light);
+            cursor: pointer;
+            padding: 0.5rem;
+            border-radius: 50%;
+            transition: var(--transition);
+        }
+
+        .close-modal:hover {
+            background: rgba(0,0,0,0.1);
+            color: var(--text-dark);
+        }
+
+        .modal-body {
+            padding: 2rem;
+        }
+
+        /* Notifications */
+        .notification {
+            position: fixed;
+            top: 100px;
+            left: 2rem;
+            background: var(--success-color);
+            color: white;
+            padding: 1rem 1.5rem;
+            border-radius: var(--border-radius);
+            box-shadow: var(--shadow-medium);
+            transform: translateX(-400px);
+            transition: var(--transition);
+            z-index: 3000;
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            max-width: 400px;
+        }
+
+        .notification.show {
+            transform: translateX(0);
+        }
+
+        .notification.success {
+            background: var(--success-color);
+        }
+
+        .notification.warning {
+            background: var(--warning-color);
+        }
+
+        .notification.error {
+            background: var(--error-color);
+        }
+
+        .notification.info {
+            background: var(--primary-color);
+        }
+
+        .notification-icon {
+            font-size: 1.2rem;
+        }
+
+        .notification-content {
+            flex: 1;
+        }
+
+        .notification-title {
+            font-weight: 600;
+            margin-bottom: 0.25rem;
+        }
+
+        .notification-message {
+            font-size: 0.9rem;
+            opacity: 0.9;
+        }
+
+        /* Loading Animation */
+        .loading {
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            border: 3px solid rgba(255,255,255,0.3);
+            border-radius: 50%;
+            border-top-color: white;
+            animation: spin 1s ease-in-out infinite;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        /* Animations */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .fade-in-up {
+            animation: fadeInUp 0.6s ease-out forwards;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .nav-container {
+                padding: 0 1rem;
+                flex-direction: column;
+                gap: 1rem;
+            }
+
+            .nav-links {
+                gap: 1rem;
+            }
+
+            .page-container {
+                margin-top: 140px;
+            }
+
+            .hero {
+                padding: 60px 0 40px;
+            }
+
+            .courses-grid {
+                grid-template-columns: 1fr;
+                gap: 1.5rem;
+            }
+
+            .search-filter-bar {
+                flex-direction: column;
+                align-items: stretch;
+            }
+
+            .search-input {
+                max-width: 100%;
+            }
+
+            .course-actions {
+                flex-direction: column;
+            }
+
+            .cart-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .cart-summary {
+                position: static;
+            }
+
+            .cart-item-large {
+                flex-direction: column;
+                text-align: center;
+            }
+
+            .cart-item-image-large {
+                width: 80px;
+                height: 60px;
+            }
+
+            .notification {
+                left: 1rem;
+                right: 1rem;
+                max-width: calc(100vw - 2rem);
+            }
+        }
+
+        /* Scroll to top */
+        .scroll-top {
+            position: fixed;
+            bottom: 2rem;
+            left: 2rem;
+            background: var(--gradient-primary);
+            color: white;
+            border: none;
+            border-radius: 50%;
+            width: 50px;
+            height: 50px;
+            cursor: pointer;
+            opacity: 0;
+            visibility: hidden;
+            transition: var(--transition);
+            z-index: 1000;
+        }
+
+        .scroll-top.show {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .scroll-top:hover {
+            transform: translateY(-3px);
+            box-shadow: var(--shadow-medium);
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar" id="navbar">
+        <div class="nav-container">
+            <div class="logo">
+                <i class="fas fa-graduation-cap"></i>
+                أكاديمية المعرفة
+            </div>
+            <ul class="nav-links">
+                <li><button class="nav-btn active" data-page="home">الرئيسية</button></li>
+                <li><button class="nav-btn" data-page="my-courses">كورساتي</button></li>
+                <li><button class="nav-btn" data-page="about">عن الأكاديمية</button></li>
+                <li>
+                    <button class="cart-icon nav-btn" data-page="cart">
+                        <i class="fas fa-shopping-cart"></i>
+                        <span class="cart-count" id="cartCount">0</span>
+                    </button>
+                </li>
+            </ul>
+        </div>
+    </nav>
+
+    <div class="page-container">
+        <!-- Home Page -->
+        <div class="page active" id="home-page">
+            <!-- Hero Section -->
+            <section class="hero">
+                <div class="hero-content">
+                    <h1>تعلم بلا حدود</h1>
+                    <p>اكتشف الآلاف من الدورات التدريبية من أفضل المدربين في العالم وطور مسيرتك المهنية مع أكاديمية المعرفة</p>
+                    <a href="#" class="cta-button" onclick="showPage('courses')">
+                        <i class="fas fa-rocket"></i>
+                        ابدأ التعلم اليوم
+                    </a>
+                </div>
+            </section>
+
+            <!-- Courses Section -->
+            <section class="content-section">
+                <div class="container">
+                    <div class="section-title">
+                        <h2>الدورات المميزة</h2>
+                        <p>استكشف مجموعتنا المختارة بعناية من الدورات المتميزة المصممة لتعزيز مهاراتك وتطوير مسيرتك المهنية</p>
+                    </div>
+
+                    <!-- Search and Filter -->
+                    <div class="search-filter-bar">
+                        <input type="text" class="search-input" id="searchInput" placeholder="البحث عن الدورات...">
+                        <div class="filter-buttons">
+                            <button class="filter-btn active" data-category="all">جميع الدورات</button>
+                            <button class="filter-btn" data-category="development">البرمجة</button>
+                            <button class="filter-btn" data-category="design">التصميم</button>
+                            <button class="filter-btn" data-category="marketing">التسويق</button>
+                            <button class="filter-btn" data-category="data-science">علم البيانات</button>
+                        </div>
+                    </div>
+
+                    <div class="courses-grid" id="coursesGrid">
+                        <!-- Course cards will be dynamically generated -->
+                    </div>
+                </div>
+            </section>
+        </div>
+
+        <!-- My Courses Page -->
+        <div class="page" id="my-courses-page">
+            <section class="content-section">
+                <div class="container">
+                    <div class="section-title">
+                        <h2>كورساتي</h2>
+                        <p>جميع الدورات التي قمت بشرائها ومتابعة تقدمك فيها</p>
+                    </div>
+                    <div id="myCoursesContent">
+                        <!-- My courses content will be dynamically generated -->
+                    </div>
+                </div>
+            </section>
+        </div>
+
+        <!-- Cart Page -->
+        <div class="page" id="cart-page">
+            <section class="content-section cart-page">
+                <div class="container">
+                    <div class="section-title">
+                        <h2>عربة التسوق</h2>
+                        <p>راجع الدورات المختارة وتابع عملية الشراء</p>
+                    </div>
+                    <div id="cartPageContent">
+                        <!-- Cart content will be dynamically generated -->
+                    </div>
+                </div>
+            </section>
+        </div>
+
+        <!-- About Page -->
+        <div class="page" id="about-page">
+            <section class="content-section">
+                <div class="container">
+                    <div class="section-title">
+                        <h2>عن أكاديمية المعرفة</h2>
+                        <p>منصة تعليمية متطورة تهدف إلى نشر المعرفة وتطوير المهارات</p>
+                    </div>
+                    <div style="text-align: center; max-width: 800px; margin: 0 auto;">
+                        <div style="background: white; padding: 3rem; border-radius: var(--border-radius); box-shadow: var(--shadow-medium); margin-bottom: 2rem;">
+                            <i class="fas fa-graduation-cap" style="font-size: 4rem; color: var(--primary-color); margin-bottom: 2rem;"></i>
+                            <h3 style="margin-bottom: 1.5rem; color: var(--text-dark);">رؤيتنا</h3>
+                            <p style="color: var(--text-light); line-height: 1.8; margin-bottom: 2rem;">
+                                نسعى إلى أن نكون المنصة الرائدة في التعليم الإلكتروني في المنطقة العربية، من خلال تقديم محتوى تعليمي عالي الجودة يواكب أحدث التطورات التكنولوجية والمهنية.
+                            </p>
+                            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 2rem; margin-top: 2rem;">
+                                <div>
+                                    <i class="fas fa-users" style="font-size: 2rem; color: var(--success-color); margin-bottom: 1rem;"></i>
+                                    <h4 style="margin-bottom: 0.5rem;">+50,000 طالب</h4>
+                                    <p style="color: var(--text-light);">من جميع أنحاء العالم</p>
+                                </div>
+                                <div>
+                                    <i class="fas fa-book" style="font-size: 2rem; color: var(--warning-color); margin-bottom: 1rem;"></i>
+                                    <h4 style="margin-bottom: 0.5rem;">+200 دورة</h4>
+                                    <p style="color: var(--text-light);">في مختلف المجالات</p>
+                                </div>
+                                <div>
+                                    <i class="fas fa-star" style="font-size: 2rem; color: var(--accent-color); margin-bottom: 1rem;"></i>
+                                    <h4 style="margin-bottom: 0.5rem;">تقييم 4.8/5</h4>
+                                    <p style="color: var(--text-light);">من طلابنا الأعزاء</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </div>
+    </div>
+
+    <!-- Course Preview Modal -->
+    <div class="modal" id="courseModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 id="modalTitle">معاينة الدورة</h2>
+                <button class="close-modal" id="closeModal">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <div class="modal-body" id="modalBody">
+                <!-- Modal content will be dynamically generated -->
+            </div>
+        </div>
+    </div>
+
+    <!-- Notifications Container -->
+    <div id="notificationsContainer"></div>
+
+    <!-- Scroll to Top Button -->
+    <button class="scroll-top" id="scrollTop">
+        <i class="fas fa-arrow-up"></i>
+    </button>
+
+    <script>
+        // Course Data
+        const courses = [
+            {
+                id: 1,
+                title: "دورة تطوير الويب الشاملة",
+                category: "development",
+                categoryName: "البرمجة",
+                description: "تعلم HTML، CSS، JavaScript، React، Node.js وابنِ تطبيقات ويب رائعة من الصفر.",
+                price: 299,
+                originalPrice: 599,
+                rating: 4.8,
+                students: 25430,
+                duration: "42 ساعة",
+                icon: "fas fa-code",
+                highlights: [
+                    "بناء أكثر من 15 مشروع حقيقي",
+                    "تعلم JavaScript الحديث ES6+",
+                    "إتقان React و Node.js",
+                    "مهارات جاهزة لسوق العمل",
+                    "وصول مدى الحياة للمحتوى",
+                    "شهادة إتمام معتمدة"
+                ]
+            },
+            {
+                id: 2,
+                title: "إتقان التسويق الرقمي",
+                category: "marketing",
+                categoryName: "التسويق",
+                description: "تعلم SEO، التسويق عبر وسائل التواصل، إعلانات جوجل، واستراتيجيات التسويق بالمحتوى.",
+                price: 249,
+                originalPrice: 449,
+                rating: 4.7,
+                students: 18750,
+                duration: "28 ساعة",
+                icon: "fas fa-chart-line",
+                highlights: [
+                    "تحسين محركات البحث الكامل",
+                    "استراتيجيات وسائل التواصل",
+                    "إتقان إعلانات جوجل",
+                    "خطط التسويق بالمحتوى",
+                    "التحليل والتقارير",
+                    "أمثلة حملات حقيقية"
+                ]
+            },
+            {
+                id: 3,
+                title: "علم البيانات مع بايثون",
+                category: "data-science",
+                categoryName: "علم البيانات",
+                description: "تعلم برمجة بايثون، تحليل البيانات، التعلم الآلي، وتقنيات التصور.",
+                price: 349,
+                originalPrice: 749,
+                rating: 4.9,
+                students: 32100,
+                duration: "56 ساعة",
+                icon: "fas fa-brain",
+                highlights: [
+                    "أساسيات بايثون إلى المستوى المتقدم",
+                    "إتقان Pandas و NumPy",
+                    "خوارزميات التعلم الآلي",
+                    "تصور البيانات مع matplotlib",
+                    "مشاريع بيانات حقيقية",
+                    "إرشادات مهنية مضمنة"
+                ]
+            },
+            {
+                id: 4,
+                title: "دورة تصميم UX/UI الكاملة",
+                category: "design",
+                categoryName: "التصميم",
+                description: "أنشئ واجهات مستخدم مذهلة وتجارب مميزة باستخدام Figma، Adobe XD، وفكر التصميم.",
+                price: 279,
+                originalPrice: 529,
+                rating: 4.6,
+                students: 14230,
+                duration: "35 ساعة",
+                icon: "fas fa-paint-brush",
+                highlights: [
+                    "منهجية التفكير التصميمي",
+                    "إتقان Figma و Adobe XD",
+                    "تقنيات بحث المستخدم",
+                    "النماذج الأولية والرسوم التخطيطية",
+                    "تطوير المحفظة",
+                    "أفضل ممارسات الصناعة"
+                ]
+            },
+            {
+                id: 5,
+                title: "الحوسبة السحابية مع AWS",
+                category: "development",
+                categoryName: "البرمجة",
+                description: "إتقان أمازون ويب سيرفيسز وتعلم بناء تطبيقات وبنية تحتية سحابية قابلة للتوسع.",
+                price: 399,
+                originalPrice: 899,
+                rating: 4.8,
+                students: 19850,
+                duration: "48 ساعة",
+                icon: "fas fa-cloud",
+                highlights: [
+                    "إتقان الخدمات الأساسية لـ AWS",
+                    "EC2، S3، RDS، Lambda",
+                    "تصميم البنية السحابية",
+                    "أفضل ممارسات الأمان",
+                    "استراتيجيات تحسين التكلفة",
+                    "التحضير لشهادة AWS"
+                ]
+            },
+            {
+                id: 6,
+                title: "تطوير تطبيقات الموبايل",
+                category: "development",
+                categoryName: "البرمجة",
+                description: "ابنِ تطبيقات iOS و Android أصلية باستخدام React Native و Flutter.",
+                price: 329,
+                originalPrice: 659,
+                rating: 4.7,
+                students: 22680,
+                duration: "52 ساعة",
+                icon: "fas fa-mobile-alt",
+                highlights: [
+                    "أساسيات React Native",
+                    "تطوير Flutter",
+                    "دمج الميزات الأصلية",
+                    "النشر في متاجر التطبيقات",
+                    "تحسين الأداء",
+                    "التطوير متعدد المنصات"
+                ]
+            }
+        ];
+
+        // Application State
+        let cart = JSON.parse(localStorage.getItem('cart')) || [];
+        let purchasedCourses = JSON.parse(localStorage.getItem('purchasedCourses')) || [];
+        let currentPage = 'home';
+        let filteredCourses = [...courses];
+
+        // DOM Elements
+        const navbar = document.getElementById('navbar');
+        const scrollTop = document.getElementById('scrollTop');
+        const courseModal = document.getElementById('courseModal');
+        const modalTitle = document.getElementById('modalTitle');
+        const modalBody = document.getElementById('modalBody');
+        const closeModal = document.getElementById('closeModal');
+        const cartCount = document.getElementById('cartCount');
+        const searchInput = document.getElementById('searchInput');
+
+        // Initialize the application
+        function init() {
+            updateCartCount();
+            renderHomePage();
+            setupEventListeners();
+            setupScrollEffects();
+            showNotification('مرحباً بك في أكاديمية المعرفة!', 'أهلاً وسهلاً', 'info');
+        }
+
+        // Navigation Functions
+        function showPage(pageId) {
+            // Hide all pages
+            document.querySelectorAll('.page').forEach(page => {
+                page.classList.remove('active');
+            });
+
+            // Remove active class from nav buttons
+            document.querySelectorAll('.nav-btn').forEach(btn => {
+                btn.classList.remove('active');
+            });
+
+            // Show selected page
+            const targetPage = document.getElementById(`${pageId}-page`);
+            if (targetPage) {
+                targetPage.classList.add('active');
+            }
+
+            // Add active class to corresponding nav button
+            const activeBtn = document.querySelector(`[data-page="${pageId}"]`);
+            if (activeBtn) {
+                activeBtn.classList.add('active');
+            }
+
+            currentPage = pageId;
+
+            // Render page content
+            switch (pageId) {
+                case 'home':
+                    renderHomePage();
+                    break;
+                case 'my-courses':
+                    renderMyCoursesPage();
+                    break;
+                case 'cart':
+                    renderCartPage();
+                    break;
+                case 'about':
+                    // About page is static
+                    break;
+            }
+        }
+
+        // Render Home Page
+        function renderHomePage() {
+            const coursesGrid = document.getElementById('coursesGrid');
+            coursesGrid.innerHTML = '';
+
+            if (filteredCourses.length === 0) {
+                coursesGrid.innerHTML = `
+                    <div style="grid-column: 1 / -1; text-align: center; padding: 3rem;">
+                        <i class="fas fa-search" style="font-size: 3rem; color: var(--text-light); margin-bottom: 1rem;"></i>
+                        <h3>لم يتم العثور على دورات</h3>
+                        <p style="color: var(--text-light);">جرب تعديل مصطلحات البحث</p>
+                    </div>
+                `;
+                return;
+            }
+
+            filteredCourses.forEach((course, index) => {
+                const isInCart = cart.find(item => item.id === course.id);
+                const isPurchased = purchasedCourses.find(item => item.id === course.id);
+                
+                const courseCard = document.createElement('div');
+                courseCard.className = 'course-card fade-in-up';
+                courseCard.style.animationDelay = `${index * 0.1}s`;
+                
+                courseCard.innerHTML = `
+                    <div class="course-image">
+                        <i class="${course.icon}"></i>
+                    </div>
+                    <div class="course-content">
+                        <div class="course-category">${course.categoryName}</div>
+                        <h3 class="course-title">${course.title}</h3>
+                        <p class="course-description">${course.description}</p>
+                        <div class="course-meta">
+                            <div class="course-rating">
+                                <div class="stars">
+                                    ${generateStars(course.rating)}
+                                </div>
+                                <span>(${course.students.toLocaleString()})</span>
+                            </div>
+                            <div class="course-price">
+                                ${course.price} ر.س
+                                ${course.originalPrice ? `<span style="text-decoration: line-through; color: #999; font-size: 0.9rem; margin-right: 0.5rem;">${course.originalPrice} ر.س</span>` : ''}
+                            </div>
+                        </div>
+                        <div class="course-actions">
+                            ${isPurchased ? 
+                                '<button class="btn btn-success" onclick="continueLearning(' + course.id + ')"><i class="fas fa-play"></i> متابعة التعلم</button>' :
+                                isInCart ? 
+                                    '<button class="btn btn-secondary" disabled><i class="fas fa-check"></i> في السلة</button>' :
+                                    '<button class="btn btn-primary" onclick="addToCart(' + course.id + ')"><i class="fas fa-cart-plus"></i> إضافة للسلة</button>'
+                            }
+                            <button class="btn btn-secondary" onclick="previewCourse(${course.id})">
+                                <i class="fas fa-eye"></i>
+                                معاينة
+                            </button>
+                        </div>
+                    </div>
+                `;
+                
+                coursesGrid.appendChild(courseCard);
+            });
+        }
+
+        // Render My Courses Page
+        function renderMyCoursesPage() {
+            const myCoursesContent = document.getElementById('myCoursesContent');
+            
+            if (purchasedCourses.length === 0) {
+                myCoursesContent.innerHTML = `
+                    <div class="my-courses-empty">
+                        <i class="fas fa-graduation-cap"></i>
+                        <h3>لم تشترِ أي دورة بعد</h3>
+                        <p>اكتشف دوراتنا المميزة وابدأ رحلة التعلم</p>
+                        <button class="btn btn-primary" onclick="showPage('home')" style="margin-top: 1rem;">
+                            <i class="fas fa-search"></i>
+                            تصفح الدورات
+                        </button>
+                    </div>
+                `;
+                return;
+            }
+
+            const coursesGrid = document.createElement('div');
+            coursesGrid.className = 'courses-grid';
+            
+            purchasedCourses.forEach(purchasedCourse => {
+                const course = courses.find(c => c.id === purchasedCourse.id);
+                if (!course) return;
+
+                const courseCard = document.createElement('div');
+                courseCard.className = 'course-card';
+                
+                courseCard.innerHTML = `
+                    <div class="course-image">
+                        <i class="${course.icon}"></i>
+                    </div>
+                    <div class="course-content">
+                        <div class="course-category">${course.categoryName}</div>
+                        <h3 class="course-title">${course.title}</h3>
+                        <p class="course-description">${course.description}</p>
+                        <div class="progress-bar">
+                            <div class="progress-fill" style="width: ${purchasedCourse.progress || 0}%"></div>
+                        </div>
+                        <div class="course-progress">
+                            <span>التقدم: ${purchasedCourse.progress || 0}%</span>
+                            <span>${course.duration}</span>
+                        </div>
+                        <div class="course-actions">
+                            <button class="btn btn-primary" onclick="continueLearning(${course.id})">
+                                <i class="fas fa-play"></i>
+                                متابعة التعلم
+                            </button>
+                            <button class="btn btn-secondary" onclick="previewCourse(${course.id})">
+                                <i class="fas fa-info-circle"></i>
+                                التفاصيل
+                            </button>
+                        </div>
+                    </div>
+                `;
+                
+                coursesGrid.appendChild(courseCard);
+            });
+
+            myCoursesContent.innerHTML = '';
+            myCoursesContent.appendChild(coursesGrid);
+        }
+
+        // Render Cart Page
+        function renderCartPage() {
+            const cartPageContent = document.getElementById('cartPageContent');
+            
+            if (cart.length === 0) {
+                cartPageContent.innerHTML = `
+                    <div class="empty-state">
+                        <i class="fas fa-shopping-cart"></i>
+                        <h3>عربة التسوق فارغة</h3>
+                        <p>أضف بعض الدورات الرائعة إلى عربة التسوق</p>
+                        <button class="btn btn-primary" onclick="showPage('home')" style="margin-top: 1rem;">
+                            <i class="fas fa-search"></i>
+                            تصفح الدورات
+                        </button>
+                    </div>
+                `;
+                return;
+            }
+
+            const total = cart.reduce((sum, item) => sum + item.price, 0);
+            const originalTotal = cart.reduce((sum, item) => sum + (item.originalPrice || item.price), 0);
+            const savings = originalTotal - total;
+
+            cartPageContent.innerHTML = `
+                <div class="cart-grid">
+                    <div class="cart-items">
+                        ${cart.map(item => `
+                            <div class="cart-item-large">
+                                <div class="cart-item-image-large">
+                                    <i class="${item.icon}"></i>
+                                </div>
+                                <div class="cart-item-info-large">
+                                    <div class="cart-item-title-large">${item.title}</div>
+                                    <div class="cart-item-category">${item.categoryName}</div>
+                                    <div class="cart-item-price-large">
+                                        ${item.price} ر.س
+                                        ${item.originalPrice ? `<span style="text-decoration: line-through; color: #999; font-size: 0.9rem; margin-right: 0.5rem;">${item.originalPrice} ر.س</span>` : ''}
+                                    </div>
+                                </div>
+                                <button class="btn btn-danger" onclick="removeFromCart(${item.id})">
+                                    <i class="fas fa-trash"></i>
+                                    حذف
+                                </button>
+                            </div>
+                        `).join('')}
+                    </div>
+                    <div class="cart-summary">
+                        <h3>ملخص الطلب</h3>
+                        <div class="summary-row">
+                            <span>عدد الدورات:</span>
+                            <span>${cart.length}</span>
+                        </div>
+                        ${savings > 0 ? `
+                        <div class="summary-row">
+                            <span>السعر الأصلي:</span>
+                            <span>${originalTotal} ر.س</span>
+                        </div>
+                        <div class="summary-row" style="color: var(--success-color);">
+                            <span>التوفير:</span>
+                            <span>-${savings} ر.س</span>
+                        </div>
+                        ` : ''}
+                        <div class="summary-row total">
+                            <span>المجموع:</span>
+                            <span>${total} ر.س</span>
+                        </div>
+                        <button class="btn btn-primary" onclick="checkout()" style="width: 100%; margin-top: 1rem;">
+                            <i class="fas fa-credit-card"></i>
+                            إتمام الشراء
+                        </button>
+                        <button class="btn btn-secondary" onclick="clearCart()" style="width: 100%; margin-top: 0.5rem;">
+                            <i class="fas fa-trash"></i>
+                            إفراغ السلة
+                        </button>
+                    </div>
+                </div>
+            `;
+        }
+
+        // Cart Functions
+        function addToCart(courseId) {
+            const course = courses.find(c => c.id === courseId);
+            if (!course) return;
+
+            // Check if course already in cart
+            const existingItem = cart.find(item => item.id === courseId);
+            if (existingItem) {
+                showNotification('هذه الدورة موجودة بالفعل في السلة!', 'تنبيه', 'warning');
+                return;
+            }
+
+            // Check if course already purchased
+            const isPurchased = purchasedCourses.find(item => item.id === courseId);
+            if (isPurchased) {
+                showNotification('لقد اشتريت هذه الدورة بالفعل!', 'تنبيه', 'info');
+                return;
+            }
+
+            cart.push({
+                id: course.id,
+                title: course.title,
+                category: course.category,
+                categoryName: course.categoryName,
+                price: course.price,
+                originalPrice: course.originalPrice,
+                icon: course.icon
+            });
+
+            localStorage.setItem('cart', JSON.stringify(cart));
+            updateCartCount();
+            
+            if (currentPage === 'home') {
+                renderHomePage();
+            } else if (currentPage === 'cart') {
+                renderCartPage();
+            }
+
+            showNotification('تم إضافة الدورة إلى السلة بنجاح!', 'إضافة ناجحة', 'success');
+        }
+
+        function removeFromCart(courseId) {
+            cart = cart.filter(item => item.id !== courseId);
+            localStorage.setItem('cart', JSON.stringify(cart));
+            updateCartCount();
+            
+            if (currentPage === 'cart') {
+                renderCartPage();
+            } else if (currentPage === 'home') {
+                renderHomePage();
+            }
+
+            showNotification('تم حذف الدورة من السلة', 'حذف ناجح', 'info');
+        }
+
+        function clearCart() {
+            if (cart.length === 0) return;
+            
+            cart = [];
+            localStorage.setItem('cart', JSON.stringify(cart));
+            updateCartCount();
+            renderCartPage();
+            
+            showNotification('تم إفراغ السلة بالكامل', 'إفراغ ناجح', 'info');
+        }
+
+        function updateCartCount() {
+            cartCount.textContent = cart.length;
+            cartCount.style.display = cart.length > 0 ? 'flex' : 'none';
+        }
+
+        function checkout() {
+            if (cart.length === 0) return;
+
+            // Simulate checkout process
+            const checkoutBtn = event.target;
+            const originalText = checkoutBtn.innerHTML;
+            checkoutBtn.innerHTML = '<div class="loading"></div> جاري المعالجة...';
+            checkoutBtn.disabled = true;
+
+            setTimeout(() => {
+                // Add courses to purchased courses
+                cart.forEach(item => {
+                    purchasedCourses.push({
+                        id: item.id,
+                        purchaseDate: new Date().toISOString(),
+                        progress: 0
+                    });
+                });
+
+                localStorage.setItem('purchasedCourses', JSON.stringify(purchasedCourses));
+                
+                // Clear cart
+                cart = [];
+                localStorage.setItem('cart', JSON.stringify(cart));
+                updateCartCount();
+
+                // Show success and redirect
+                showNotification('تم إتمام الشراء بنجاح! تحقق من بريدك الإلكتروني للتفاصيل.', 'شراء ناجح', 'success');
+                
+                setTimeout(() => {
+                    showPage('my-courses');
+                }, 2000);
+
+                checkoutBtn.innerHTML = originalText;
+                checkoutBtn.disabled = false;
+            }, 3000);
+        }
+
+        function continueLearning(courseId) {
+            // Simulate starting/continuing course
+            const course = courses.find(c => c.id === courseId);
+            if (!course) return;
+
+            // Update progress (simulate)
+            const purchasedCourse = purchasedCourses.find(p => p.id === courseId);
+            if (purchasedCourse) {
+                purchasedCourse.progress = Math.min((purchasedCourse.progress || 0) + 10, 100);
+                localStorage.setItem('purchasedCourses', JSON.stringify(purchasedCourses));
+                
+                if (currentPage === 'my-courses') {
+                    renderMyCoursesPage();
+                }
+            }
+
+            showNotification(`بدء تعلم: ${course.title}`, 'تعلم ممتع!', 'success');
+        }
+
+        // Search and Filter Functions
+        function searchCourses(query) {
+            const searchTerm = query.toLowerCase().trim();
+            const activeCategory = document.querySelector('.filter-btn.active').dataset.category;
+            
+            filteredCourses = courses.filter(course => {
+                const matchesSearch = searchTerm === '' || 
+                    course.title.toLowerCase().includes(searchTerm) ||
+                    course.categoryName.toLowerCase().includes(searchTerm) ||
+                    course.description.toLowerCase().includes(searchTerm);
+                
+                const matchesCategory = activeCategory === 'all' || course.category === activeCategory;
+                
+                return matchesSearch && matchesCategory;
+            });
+            
+            if (currentPage === 'home') {
+                renderHomePage();
+            }
+        }
+
+        function filterByCategory(category) {
+            // Update active filter button
+            document.querySelectorAll('.filter-btn').forEach(btn => {
+                btn.classList.remove('active');
+            });
+            event.target.classList.add('active');
+
+            const searchQuery = searchInput.value.toLowerCase().trim();
+            
+            filteredCourses = courses.filter(course => {
+                const matchesCategory = category === 'all' || course.category === category;
+                const matchesSearch = searchQuery === '' || 
+                    course.title.toLowerCase().includes(searchQuery) ||
+                    course.categoryName.toLowerCase().includes(searchQuery) ||
+                    course.description.toLowerCase().includes(searchQuery);
+                
+                return matchesCategory && matchesSearch;
+            });
+            
+            if (currentPage === 'home') {
+                renderHomePage();
+            }
+        }
+
+        // Course Preview
+        function previewCourse(courseId) {
+            const course = courses.find(c => c.id === courseId);
+            if (!course) return;
+
+            modalTitle.textContent = course.title;
+            modalBody.innerHTML = `
+                <div style="display: grid; grid-template-columns: 300px 1fr; gap: 2rem; margin-bottom: 2rem;">
+                    <div style="height: 200px; background: var(--gradient-accent); border-radius: var(--border-radius); display: flex; align-items: center; justify-content: center; font-size: 4rem; color: white;">
+                        <i class="${course.icon}"></i>
+                    </div>
+                    <div>
+                        <h3 style="font-size: 1.5rem; margin-bottom: 1rem; color: var(--text-dark);">${course.title}</h3>
+                        <div style="display: flex; flex-wrap: wrap; gap: 1rem; margin-bottom: 1rem;">
+                            <div style="display: flex; align-items: center; gap: 0.5rem; color: var(--text-light);">
+                                <i class="fas fa-star" style="color: #fbbf24;"></i>
+                                <span>${course.rating} (${course.students.toLocaleString()} طالب)</span>
+                            </div>
+                            <div style="display: flex; align-items: center; gap: 0.5rem; color: var(--text-light);">
+                                <i class="fas fa-clock"></i>
+                                <span>${course.duration}</span>
+                            </div>
+                            <div style="display: flex; align-items: center; gap: 0.5rem; color: var(--text-light);">
+                                <i class="fas fa-tag"></i>
+                                <span>${course.categoryName}</span>
+                            </div>
+                        </div>
+                        <p style="margin-bottom: 1rem;">${course.description}</p>
+                        <div style="margin-top: 1rem;">
+                            <span style="font-size: 1.5rem; font-weight: 700; color: var(--primary-color);">${course.price} ر.س</span>
+                            ${course.originalPrice ? `<span style="text-decoration: line-through; color: #999; margin-right: 0.5rem;">${course.originalPrice} ر.س</span>` : ''}
+                        </div>
+                    </div>
+                </div>
+                <div style="margin-top: 2rem;">
+                    <h4 style="margin-bottom: 1rem;">ما ستتعلمه:</h4>
+                    <ul style="list-style: none; display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 0.75rem;">
+                        ${course.highlights.map(highlight => `
+                            <li style="display: flex; align-items: center; gap: 0.5rem; color: var(--text-light);">
+                                <i class="fas fa-check" style="color: var(--success-color);"></i> ${highlight}
+                            </li>
+                        `).join('')}
+                    </ul>
+                </div>
+                <div style="margin-top: 2rem; text-align: center;">
+                    ${purchasedCourses.find(p => p.id === course.id) ? 
+                        `<button class="btn btn-success" onclick="continueLearning(${course.id}); closeModal.click();" style="margin-left: 1rem;">
+                            <i class="fas fa-play"></i>
+                            متابعة التعلم
+                        </button>` :
+                        cart.find(c => c.id === course.id) ?
+                            `<button class="btn btn-secondary" disabled style="margin-left: 1rem;">
+                                <i class="fas fa-check"></i>
+                                في السلة
+                            </button>` :
+                            `<button class="btn btn-primary" onclick="addToCart(${course.id}); closeModal.click();" style="margin-left: 1rem;">
+                                <i class="fas fa-cart-plus"></i>
+                                إضافة للسلة - ${course.price} ر.س
+                            </button>`
+                    }
+                    <button class="btn btn-secondary" onclick="closeModal.click();">
+                        <i class="fas fa-times"></i>
+                        إغلاق
+                    </button>
+                </div>
+            `;
+            
+            courseModal.classList.add('show');
+            document.body.style.overflow = 'hidden';
+        }
+
+        // Generate star rating
+        function generateStars(rating) {
+            const fullStars = Math.floor(rating);
+            const hasHalfStar = rating % 1 !== 0;
+            let starsHTML = '';
+            
+            for (let i = 0; i < fullStars; i++) {
+                starsHTML += '<i class="fas fa-star"></i>';
+            }
+            
+            if (hasHalfStar) {
+                starsHTML += '<i class="fas fa-star-half-alt"></i>';
+            }
+            
+            const emptyStars = 5 - Math.ceil(rating);
+            for (let i = 0; i < emptyStars; i++) {
+                starsHTML += '<i class="far fa-star"></i>';
+            }
+            
+            return starsHTML + `<span style="margin-right: 0.5rem; color: #666;">${rating}</span>`;
+        }
+
+        // Notification System
+        function showNotification(message, title = '', type = 'success') {
+            const notificationId = Date.now();
+            const notification = document.createElement('div');
+            notification.className = `notification ${type}`;
+            notification.id = `notification-${notificationId}`;
+            
+            const icons = {
+                success: 'fas fa-check-circle',
+                warning: 'fas fa-exclamation-triangle',
+                error: 'fas fa-exclamation-circle',
+                info: 'fas fa-info-circle'
+            };
+
+            notification.innerHTML = `
+                <div class="notification-icon">
+                    <i class="${icons[type]}"></i>
+                </div>
+                <div class="notification-content">
+                    ${title ? `<div class="notification-title">${title}</div>` : ''}
+                    <div class="notification-message">${message}</div>
+                </div>
+                <button onclick="hideNotification(${notificationId})" style="background: none; border: none; color: inherit; font-size: 1.2rem; cursor: pointer; opacity: 0.7;">
+                    <i class="fas fa-times"></i>
+                </button>
+            `;
+
+            document.getElementById('notificationsContainer').appendChild(notification);
+
+            // Show notification
+            setTimeout(() => {
+                notification.classList.add('show');
+            }, 100);
+
+            // Auto hide after 5 seconds
+            setTimeout(() => {
+                hideNotification(notificationId);
+            }, 5000);
+        }
+
+        function hideNotification(notificationId) {
+            const notification = document.getElementById(`notification-${notificationId}`);
+            if (notification) {
+                notification.classList.remove('show');
+                setTimeout(() => {
+                    notification.remove();
+                }, 300);
+            }
+        }
+
+        // Event Listeners Setup
+        function setupEventListeners() {
+            // Navigation buttons
+            document.querySelectorAll('.nav-btn').forEach(btn => {
+                btn.addEventListener('click', (e) => {
+                    const page = e.target.dataset.page || e.target.closest('.nav-btn').dataset.page;
+                    if (page) {
+                        showPage(page);
+                    }
+                });
+            });
+
+            // Modal close events
+            closeModal.addEventListener('click', () => {
+                courseModal.classList.remove('show');
+                document.body.style.overflow = 'auto';
+            });
+
+            courseModal.addEventListener('click', (e) => {
+                if (e.target === courseModal) {
+                    courseModal.classList.remove('show');
+                    document.body.style.overflow = 'auto';
+                }
+            });
+
+            // Search functionality
+            searchInput.addEventListener('input', (e) => {
+                searchCourses(e.target.value);
+            });
+
+            // Filter buttons
+            document.querySelectorAll('.filter-btn').forEach(btn => {
+                btn.addEventListener('click', (e) => {
+                    filterByCategory(e.target.dataset.category);
+                });
+            });
+
+            // Scroll to top button
+            scrollTop.addEventListener('click', () => {
+                window.scrollTo({
+                    top: 0,
+                    behavior: 'smooth'
+                });
+            });
+
+            // Keyboard shortcuts
+            document.addEventListener('keydown', (e) => {
+                // Escape key closes modal
+                if (e.key === 'Escape') {
+                    courseModal.classList.remove('show');
+                    document.body.style.overflow = 'auto';
+                }
+
+                // Ctrl+1,2,3,4 for page navigation
+                if (e.ctrlKey) {
+                    switch(e.key) {
+                        case '1':
+                            e.preventDefault();
+                            showPage('home');
+                            break;
+                        case '2':
+                            e.preventDefault();
+                            showPage('my-courses');
+                            break;
+                        case '3':
+                            e.preventDefault();
+                            showPage('cart');
+                            break;
+                        case '4':
+                            e.preventDefault();
+                            showPage('about');
+                            break;
+                    }
+                }
+            });
+
+            // Smooth scrolling for internal links
+            document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+                anchor.addEventListener('click', function (e) {
+                    e.preventDefault();
+                    const target = document.querySelector(this.getAttribute('href'));
+                    if (target) {
+                        target.scrollIntoView({
+                            behavior: 'smooth',
+                            block: 'start'
+                        });
+                    }
+                });
+            });
+        }
+
+        // Scroll Effects Setup
+        function setupScrollEffects() {
+            let ticking = false;
+
+            window.addEventListener('scroll', () => {
+                if (!ticking) {
+                    requestAnimationFrame(() => {
+                        const scrollY = window.scrollY;
+                        
+                        // Navbar scroll effect
+                        if (scrollY > 100) {
+                            navbar.classList.add('scrolled');
+                            scrollTop.classList.add('show');
+                        } else {
+                            navbar.classList.remove('scrolled');
+                            scrollTop.classList.remove('show');
+                        }
+
+                        // Parallax effect for hero section if on home page
+                        if (currentPage === 'home') {
+                            const hero = document.querySelector('.hero');
+                            if (hero) {
+                                const heroHeight = hero.offsetHeight;
+                                const scrolled = scrollY;
+                                const rate = scrolled * -0.3;
+                                
+                                if (scrolled < heroHeight) {
+                                    hero.style.transform = `translateY(${rate}px)`;
+                                }
+                            }
+                        }
+
+                        ticking = false;
+                    });
+                    ticking = true;
+                }
+            });
+
+            // Intersection Observer for animations
+            const observerOptions = {
+                threshold: 0.1,
+                rootMargin: '0px 0px -50px 0px'
+            };
+
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('fade-in-up');
+                    }
+                });
+            }, observerOptions);
+
+            // Observe elements when they're created
+            const observeElements = () => {
+                document.querySelectorAll('.course-card:not(.observed)').forEach(card => {
+                    card.classList.add('observed');
+                    observer.observe(card);
+                });
+            };
+
+            // Initial observation
+            setTimeout(observeElements, 100);
+
+            // Re-observe when content changes
+            const originalRenderHomePage = renderHomePage;
+            renderHomePage = function() {
+                originalRenderHomePage.call(this);
+                setTimeout(observeElements, 100);
+            };
+        }
+
+        // Utility Functions
+        function formatPrice(price) {
+            return new Intl.NumberFormat('ar-SA', {
+                style: 'currency',
+                currency: 'SAR'
+            }).format(price);
+        }
+
+        function formatDate(dateString) {
+            return new Intl.DateTimeFormat('ar-SA', {
+                year: 'numeric',
+                month: 'long',
+                day: 'numeric'
+            }).format(new Date(dateString));
+        }
+
+        // Performance Optimizations
+        function debounce(func, wait) {
+            let timeout;
+            return function executedFunction(...args) {
+                const later = () => {
+                    clearTimeout(timeout);
+                    func(...args);
+                };
+                clearTimeout(timeout);
+                timeout = setTimeout(later, wait);
+            };
+        }
+
+        // Debounced search
+        const debouncedSearch = debounce(searchCourses, 300);
+        
+        // Update search event listener to use debounced version
+        if (searchInput) {
+            searchInput.removeEventListener('input', searchCourses);
+            searchInput.addEventListener('input', (e) => {
+                debouncedSearch(e.target.value);
+            });
+        }
+
+        // Data persistence
+        function saveData() {
+            localStorage.setItem('cart', JSON.stringify(cart));
+            localStorage.setItem('purchasedCourses', JSON.stringify(purchasedCourses));
+        }
+
+        function loadData() {
+            const savedCart = localStorage.getItem('cart');
+            const savedPurchases = localStorage.getItem('purchasedCourses');
+            
+            if (savedCart) {
+                cart = JSON.parse(savedCart);
+            }
+            
+            if (savedPurchases) {
+                purchasedCourses = JSON.parse(savedPurchases);
+            }
+        }
+
+        // Error handling
+        window.addEventListener('error', (e) => {
+            console.error('خطأ في التطبيق:', e.error);
+            showNotification('حدث خطأ غير متوقع. يرجى إعادة تحميل الصفحة.', 'خطأ', 'error');
+        });
+
+        // Service Worker for better performance (if needed)
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', function() {
+                // Service worker registration would go here
+                console.log('أكاديمية المعرفة تم تحميلها بنجاح!');
+            });
+        }
+
+        // Initialize app when DOM is loaded
+        document.addEventListener('DOMContentLoaded', function() {
+            loadData();
+            init();
+        });
+
+        // Save data before page unload
+        window.addEventListener('beforeunload', saveData);
+
+        // Handle browser back/forward buttons
+        window.addEventListener('popstate', function(e) {
+            // Handle browser navigation if needed
+            console.log('تنقل في التاريخ');
+        });
+
+        // Add some demo purchases for testing (remove in production)
+        function addDemoData() {
+            if (purchasedCourses.length === 0) {
+                // Add a demo purchased course
+                purchasedCourses.push({
+                    id: 1,
+                    purchaseDate: new Date().toISOString(),
+                    progress: 25
+                });
+                localStorage.setItem('purchasedCourses', JSON.stringify(purchasedCourses));
+            }
+        }
+
+        // Uncomment next line to add demo data for testing
+        // addDemoData();
+    </script>
+</body>
+</html>
